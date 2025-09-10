@@ -28,7 +28,7 @@ class LeafNode(HTMLNode):
         super().__init__(tag=tag, value=value, props=props)
 
     def to_html(self):
-        if not self.value:
+        if not self.value and self.tag != "img":
             raise ValueError
 
         if not self.tag:
@@ -40,6 +40,9 @@ class LeafNode(HTMLNode):
             for key, value in self.props.items():
                 prop_pairs.append(f'{key}="{value}"')
             props_str = " " + " ".join(prop_pairs)
+
+        if self.tag == "img":
+            return f"<img{props_str}>"
 
         return f'<{self.tag}{props_str}>{self.value}</{self.tag}>'
 
